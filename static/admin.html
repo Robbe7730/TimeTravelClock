@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Untitled</title>
+    <script src="jquery.js"></script>
+    <script>
+      $.ajax('/delta', {
+          success: (data) => {
+              document.getElementById('delta').value = data;
+          }
+      })
+    </script>
+  </head>
+  <body>
+    <h2> Snelheid </h2>
+    <form method="POST" action="/delta">
+      <label for="delta">Snelheid: </label>
+      <input type="number" id="delta" name="delta" required>
+      <input type="submit" value="Aanpassen">
+    </form>
+    <h2> Tijd </h2>
+    <form method="POST" action="/time">
+      <label for="time">Tijd: </label>
+      <input type="time" id="time" name="time", step="1" required>
+      <input type="submit" value="Aanpassen">
+    </form>
+  </body>
+</html>

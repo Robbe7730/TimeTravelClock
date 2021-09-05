@@ -5,9 +5,9 @@ Time-traveling clock for Studio Aspekto
 import datetime
 import threading
 
-from flask import Flask, request
+from flask import Flask, request, redirect
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 TIME = datetime.datetime.now()
 TIMEDELTA = 1
@@ -23,6 +23,9 @@ def tick():
 
     threading.Timer(1, tick, []).start()
 
+@app.route('/')
+def index():
+    return redirect('index.html')
 
 @app.route('/time', methods=["GET", "POST"])
 def time():
@@ -31,7 +34,8 @@ def time():
     """
     global TIME
     if request.method == 'POST':
-        TIME = datetime.datetime.strptime(request.json['time'][:-7], "%Y-%m-%dT%H:%M:%S")
+        TIME = datetime.datetime.strptime(request.form['time'], "%H:%M:%S")
+        return redirect('admin.html')
 
     return TIME.isoformat()
 
@@ -42,7 +46,8 @@ def delta():
     """
     global TIMEDELTA
     if request.method == 'POST':
-        TIMEDELTA = float(request.json["delta"])
+        TIMEDELTA = float(request.form["delta"])
+        return redirect('admin.html')
 
     return str(TIMEDELTA)
 
