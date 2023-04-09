@@ -11,6 +11,7 @@ app = Flask(__name__, static_url_path='')
 
 TIME = datetime.datetime.now()
 TIMEDELTA = 1
+TICKING = True
 
 def tick():
     """
@@ -19,7 +20,8 @@ def tick():
     global TIME
     global TIMEDELTA
 
-    TIME += datetime.timedelta(seconds=TIMEDELTA)
+    if TICKING:
+        TIME += datetime.timedelta(seconds=TIMEDELTA)
 
     threading.Timer(1, tick, []).start()
 
@@ -50,6 +52,19 @@ def delta():
         return redirect('admin.html')
 
     return str(TIMEDELTA)
+
+@app.route('/ticking', methods=["POST"])
+def ticking():
+    """
+    set or get the amount of seconds to be added every second
+    """
+    global TICKING
+    if request.method == 'POST':
+        print(request.form["ticking"])
+        TICKING = request.form["ticking"].lower() == "true"
+        return redirect('admin.html')
+
+    return str(TICKING)
 
 if __name__ == '__main__':
     tick()

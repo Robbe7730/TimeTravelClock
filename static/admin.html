@@ -24,5 +24,13 @@
       <input type="time" id="time" name="time" step="1" required>
       <input type="submit" value="Aanpassen">
     </form>
+    <form method="POST" action="/ticking">
+      <input type="hidden" id="ticking" name="ticking" value="False">
+      <input type="submit" value="PAUZE">
+    </form>
+    <form method="POST" action="/ticking">
+      <input type="hidden" id="ticking" name="ticking" value="True">
+      <input type="submit" value="PLAY">
+    </form>
   </body>
 </html>
